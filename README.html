@@ -387,23 +387,18 @@
                 </article>
                 <article class="file-card">
                     <h3>login-data.json</h3>
-                    <p>Contains one JSON object per scenario. Use only test credentials authorized for your test environment; never store real or production credentials here.</p>
+                    <p>Contains one JSON object per login scenario. Use only authorized test credentials; never store real or production credentials here.</p>
                 </article>
                 <article class="file-card">
                     <h3>JSONDataReader.java</h3>
-                    <p>Uses Jackson to deserialize the JSON array into <code>UserLoginPOJO</code> objects. Reports a missing, invalid, or empty data file.</p>
+                    <p>Uses Jackson to read the JSON array into a list of POJOs. Reports a missing, invalid, or empty data file.</p>
                 </article>
                 <article class="file-card">
                     <h3>UserLoginTest.java</h3>
-                    <p>Its DataProvider creates one TestNG data row per POJO. The test drives LoginPage and asserts that the displayed result matches <code>expectedResult</code>.</p>
+                    <p>A TestNG DataProvider turns the POJO list into test rows. TestNG runs the login test once for each JSON record.</p>
                 </article>
             </div>
-            <p>For example, this JSON object is converted into one <code>UserLoginPOJO</code> and passed to the test method:</p>
-            <pre><code>{
-  "username": "student",
-  "password": "replace-me",
-  "expectedResult": "Logged In Successfully"
-}</code></pre>
+            <p>Each JSON object is converted into one <code>UserLoginPOJO</code>. The DataProvider passes each POJO to the test method in turn. For CI, keep real credentials in Jenkins Credentials or another secret manager rather than JSON.</p>
 
             <h3>Reporting and Jira</h3>
             <div class="file-grid">
@@ -427,8 +422,9 @@
             <ol>
                 <li>Maven Surefire starts the TestNG tests.</li>
                 <li><code>BaseTest</code> starts a fresh browser and page before each test method.</li>
-                <li><code>JSONDataReader</code> loads scenario records; the DataProvider supplies one record to each test invocation.</li>
-                <li><code>UserLoginTest</code> uses <code>LoginPage</code> to submit the scenario and check the result.</li>
+                <li>TestNG runs each of the three named <code>UserLoginTest</code> methods independently.</li>
+                <li>The <code>loginData</code> DataProvider supplies one <code>UserLoginPOJO</code> from the JSON file for each test run.</li>
+                <li>The test uses <code>LoginPage</code> to submit the POJO credentials and asserts the result against its expected message.</li>
                 <li><code>TestListener</code> records the result in ExtentReports. On failure, it captures a screenshot before teardown closes the browser.</li>
                 <li>When all four Jira environment variables are present, <code>JiraClient</code> searches for a duplicate failure, creates an issue if needed, and attaches the screenshot.</li>
                 <li>TestNG teardown closes browser resources. The listener writes the HTML report under <code>target/extent-reports/</code>.</li>
@@ -441,7 +437,7 @@
             <pre><code>application.url=https://your-application.example/login
 browser.type=chromium
 browser.headless=true</code></pre>
-            <p>Set the URL to your actual test application. In <code>LoginPage.java</code>, update the accessible locators and success-page detection to match that application's labels, button name, result element, and URL behavior. The expected messages in <code>login-data.json</code> must exactly match the application output.</p>
+            <p>Set the URL to your actual test application. In <code>LoginPage.java</code>, update the accessible locators and success-page detection to match that application's labels, button name, result element, and URL behavior. Update the credentials and expected messages in <code>login-data.json</code> to match the application and authorized test accounts. For CI, store real credentials in Jenkins Credentials or another secret manager, not in JSON.</p>
             <div class="notice">
                 <p><strong>Test data safety:</strong> Use authorized test accounts. Do not commit credentials or put production credentials in JSON.</p>
             </div>

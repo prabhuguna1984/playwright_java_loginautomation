@@ -37,4 +37,5 @@ public final class JSONDataReader {
             throw new IllegalStateException("Could not read testdata/login-data.json", exception);
         }
     }
+
 }

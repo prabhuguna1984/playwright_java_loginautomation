@@ -14,9 +14,7 @@ import java.util.List;
 @Listeners(com.automation.listeners.TestListener.class)
 public class UserLoginTest extends BaseTest {
     /**
-     * Supplies login scenarios loaded from the JSON test data file.
-     *
-     * @return one TestNG data row for each login scenario
+     * Loads login scenarios and supplies each one as a separate TestNG data row.
      */
     @DataProvider(name = "loginData")
     public Object[][] loginData() {
@@ -31,11 +29,11 @@ public class UserLoginTest extends BaseTest {
     }
 
     /**
-     * Runs one login scenario and checks the displayed message.
+     * Runs one login scenario and checks the displayed result.
      *
-     * @param loginData the credentials and expected message for this scenario
+     * @param loginData credentials and expected message from one JSON record
      */
-    @Test(dataProvider = "loginData")
+    @Test(dataProvider = "loginData" , description = "Runs login scenarios from JSON test data")
     public void loginScenariosShowExpectedMessage(UserLoginPOJO loginData) {
         LoginPage loginPage = new LoginPage(page);
         loginPage.open();
