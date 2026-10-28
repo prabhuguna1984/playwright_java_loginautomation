@@ -47,6 +47,7 @@ pipeline {
                 reportName: 'Extent Report',
                 reportDir: 'target/extent-reports',
                 reportFiles: 'ExtentReport.html',
+                includes: '**/*',
                 keepAll: true,
                 alwaysLinkToLastBuild: true,
                 allowMissing: true
