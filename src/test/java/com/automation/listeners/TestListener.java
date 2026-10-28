@@ -159,10 +159,7 @@ public class TestListener implements ITestListener {
         try {
             Path reportDirectory = Path.of("target", "extent-reports");
             Files.createDirectories(reportDirectory);
-            String timestamp = DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss")
-                    .withZone(ZoneOffset.UTC)
-                    .format(Instant.now());
-            Path reportPath = reportDirectory.resolve("ExtentReport-" + timestamp + ".html");
+            Path reportPath = reportDirectory.resolve("ExtentReport.html");
             ExtentSparkReporter sparkReporter = new ExtentSparkReporter(reportPath.toString());
             sparkReporter.config().setDocumentTitle("User Login Automation Report");
             sparkReporter.config().setReportName("Playwright Test Results");
