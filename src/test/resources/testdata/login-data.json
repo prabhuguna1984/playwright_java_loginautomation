@@ -1,7 +1,7 @@
 [
   {
     "username": "student",
-    "password": "Password1234",
+    "password": "Password123",
     "expectedResult": "Logged In Successfully"
   },
   {
