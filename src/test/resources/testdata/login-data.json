@@ -1,0 +1,17 @@
+[
+  {
+    "username": "student",
+    "password": "Password1234",
+    "expectedResult": "Logged In Successfully"
+  },
+  {
+    "username": "student",
+    "password": "123",
+    "expectedResult": "Your password is invalid!"
+  },
+  {
+    "username": "user1323",
+    "password": "Password123",
+    "expectedResult": "Your username is invalid!"
+  }
+]

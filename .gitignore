@@ -1,0 +1,30 @@
+# Maven build output, test reports, screenshots, traces, and ExtentReports
+/target/
+
+# Compiled Java files and packaged artifacts
+*.class
+*.jar
+*.war
+*.ear
+
+# Local environment files and Jira credentials
+.env
+.env.*
+!.env.example
+/ci/jira.properties
+
+# Local logs
+*.log
+
+# IDE and editor files
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+Desktop.ini

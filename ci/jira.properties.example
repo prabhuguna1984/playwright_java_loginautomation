@@ -1,0 +1,7 @@
+# Non-secret Jira settings read by the Jenkins pipeline.
+# Copy this file to ci/jira.properties and replace these example values.
+JIRA_BASE_URL=https://prabhuguna84.atlassian.net
+JIRA_PROJECT_KEY=PA
+
+# Do not put JIRA_EMAIL or JIRA_API_TOKEN in this file.
+# Store those values in Jenkins Credentials and inject them at runtime.

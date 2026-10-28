@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A readable guide to the User Login Automation Java Playwright framework.">
+    <title>User Login Automation Framework Guide</title>
+    <style>
+        :root {
+            color-scheme: light;
+            --page: #f3f6fb;
+            --surface: #ffffff;
+            --ink: #1b2940;
+            --muted: #596a82;
+            --line: #dce4ef;
+            --accent: #2457c5;
+            --accent-soft: #eaf0ff;
+            --code: #122033;
+            --code-ink: #e7eef9;
+            --shadow: 0 12px 32px rgba(27, 41, 64, .07);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 24px;
+        }
+
+        body {
+            margin: 0;
+            background: var(--page);
+            color: var(--ink);
+            font: 16px/1.7 "Segoe UI", Arial, sans-serif;
+        }
+
+        a {
+            color: var(--accent);
+        }
+
+        .hero {
+            padding: 52px 24px 44px;
+            background: linear-gradient(125deg, #173b84, #2869d1 62%, #438bdc);
+            color: white;
+        }
+
+        .hero-inner,
+        .layout {
+            width: min(1180px, calc(100% - 40px));
+            margin: 0 auto;
+        }
+
+        .eyebrow {
+            margin: 0 0 8px;
+            color: #d4e4ff;
+            font-size: .82rem;
+            font-weight: 700;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            line-height: 1.15;
+        }
+
+        .hero p:last-child {
+            max-width: 760px;
+            margin: 16px 0 0;
+            color: #eef5ff;
+            font-size: 1.08rem;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 250px minmax(0, 1fr);
+            align-items: start;
+            gap: 28px;
+            padding: 32px 0 60px;
+        }
+
+        nav,
+        main {
+            min-width: 0;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            background: var(--surface);
+            box-shadow: var(--shadow);
+        }
+
+        nav {
+            position: sticky;
+            top: 20px;
+            padding: 20px;
+        }
+
+        nav h2 {
+            margin: 0 0 12px;
+            font-size: 1rem;
+        }
+
+        nav ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        nav li + li {
+            margin-top: 5px;
+        }
+
+        nav a {
+            display: block;
+            padding: 7px 9px;
+            border-radius: 7px;
+            color: var(--muted);
+            font-size: .92rem;
+            text-decoration: none;
+        }
+
+        nav a:hover,
+        nav a:focus-visible {
+            background: var(--accent-soft);
+            color: var(--accent);
+            outline: none;
+        }
+
+        main {
+            padding: clamp(22px, 4vw, 44px);
+        }
+
+        section + section {
+            margin-top: 42px;
+            padding-top: 34px;
+            border-top: 1px solid var(--line);
+        }
+
+        h2 {
+            margin: 0 0 14px;
+            font-size: clamp(1.35rem, 3vw, 1.8rem);
+            line-height: 1.3;
+        }
+
+        h3 {
+            margin: 26px 0 8px;
+            font-size: 1.12rem;
+        }
+
+        p {
+            margin: 10px 0;
+        }
+
+        .lead {
+            color: var(--muted);
+            font-size: 1.05rem;
+        }
+
+        .file-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .file-card {
+            padding: 16px;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: #fbfcff;
+        }
+
+        .file-card h3 {
+            margin: 0 0 7px;
+            color: var(--accent);
+            font-size: 1rem;
+            overflow-wrap: anywhere;
+        }
+
+        .file-card p {
+            margin: 0;
+            color: var(--muted);
+            font-size: .94rem;
+        }
+
+        code {
+            padding: .12em .36em;
+            border-radius: 4px;
+            background: #eef2f8;
+            color: #253854;
+            font: .9em Consolas, "Courier New", monospace;
+            overflow-wrap: anywhere;
+        }
+
+        pre {
+            margin: 16px 0;
+            padding: 18px 20px;
+            overflow-x: auto;
+            border-radius: 10px;
+            background: var(--code);
+            color: var(--code-ink);
+            font: .9rem/1.6 Consolas, "Courier New", monospace;
+            tab-size: 4;
+        }
+
+        pre code {
+            padding: 0;
+            background: transparent;
+            color: inherit;
+            font: inherit;
+            overflow-wrap: normal;
+        }
+
+        ol,
+        ul {
+            padding-left: 1.4rem;
+        }
+
+        li + li {
+            margin-top: 6px;
+        }
+
+        .notice {
+            margin: 18px 0;
+            padding: 14px 17px;
+            border-left: 4px solid var(--accent);
+            border-radius: 6px;
+            background: var(--accent-soft);
+        }
+
+        .notice p {
+            margin: 0;
+        }
+
+        .output-list strong {
+            color: var(--ink);
+        }
+
+        footer {
+            padding: 0 20px 28px;
+            color: var(--muted);
+            font-size: .88rem;
+            text-align: center;
+        }
+
+        @media (max-width: 800px) {
+            .layout {
+                grid-template-columns: 1fr;
+                gap: 18px;
+            }
+
+            nav {
+                position: static;
+            }
+
+            nav ul {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 2px 8px;
+            }
+
+            .file-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding: 38px 20px;
+            }
+
+            .hero-inner,
+            .layout {
+                width: min(100% - 24px, 1180px);
+            }
+
+            nav ul {
+                grid-template-columns: 1fr;
+            }
+
+            main {
+                padding: 20px 17px;
+            }
+
+            pre {
+                padding: 15px;
+                font-size: .82rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<header class="hero">
+    <div class="hero-inner">
+        <p class="eyebrow">Framework documentation</p>
+        <h1>User Login Automation</h1>
+        <p>A beginner-friendly UI automation framework using Java 21, Playwright for Java, Maven, TestNG, Page Object Model, JSON test data, ExtentReports, and optional Jira Cloud reporting.</p>
+    </div>
+</header>
+
+<div class="layout">
+    <nav aria-label="Page contents">
+        <h2>On this page</h2>
+        <ul>
+            <li><a href="#structure">Framework structure</a></li>
+            <li><a href="#files">What each file does</a></li>
+            <li><a href="#test-flow">How a test run works</a></li>
+            <li><a href="#configuration">Configure the app</a></li>
+            <li><a href="#run">Install and run</a></li>
+            <li><a href="#outputs">Output files</a></li>
+            <li><a href="#jira">Jira setup</a></li>
+            <li><a href="#jenkins">Jenkins CI/CD</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="structure">
+            <h2>Framework structure</h2>
+            <p class="lead">Source code is separated into reusable framework classes under <code>src/main</code> and test setup, listeners, and tests under <code>src/test</code>.</p>
+            <pre><code>UserLoginAutomation/
+├── pom.xml
+├── README.md
+├── README.html
+├── Jenkinsfile
+├── ci/
+│   └── jira.properties.example
+└── src/
+    ├── main/
+    │   ├── java/com/automation/
+    │   │   ├── factory/PlaywrightFactory.java
+    │   │   ├── models/UserLoginPOJO.java
+    │   │   ├── pages/LoginPage.java
+    │   │   └── utils/
+    │   │       ├── ConfigReader.java
+    │   │       ├── JiraClient.java
+    │   │       └── JSONDataReader.java
+    │   └── resources/config.properties
+    └── test/
+        ├── java/com/automation/
+        │   ├── base/BaseTest.java
+        │   ├── listeners/TestListener.java
+        │   └── tests/UserLoginTest.java
+        └── resources/testdata/login-data.json</code></pre>
+        </section>
+
+        <section id="files">
+            <h2>What each file does</h2>
+            <h3>Build and configuration</h3>
+            <div class="file-grid">
+                <article class="file-card">
+                    <h3>pom.xml</h3>
+                    <p>Declares Java 21 and the Playwright, TestNG, Jackson, and ExtentReports dependencies. Maven Surefire discovers and runs the TestNG tests.</p>
+                </article>
+                <article class="file-card">
+                    <h3>Jenkinsfile</h3>
+                    <p>Defines the CI pipeline: checkout, Chromium installation, headless test execution, Jira credential binding, and report/artifact publishing.</p>
+                </article>
+                <article class="file-card">
+                    <h3>config.properties</h3>
+                    <p>Stores the application URL, browser type, and headless setting. Page locators are kept in the page object, not this file.</p>
+                </article>
+                <article class="file-card">
+                    <h3>ConfigReader.java</h3>
+                    <p>Loads <code>config.properties</code> and provides the application URL and browser settings to other classes.</p>
+                </article>
+                <article class="file-card">
+                    <h3>PlaywrightFactory.java</h3>
+                    <p>Selects and launches the configured browser, then creates the browser context and page. Closes these resources after the test.</p>
+                </article>
+                <article class="file-card">
+                    <h3>BaseTest.java</h3>
+                    <p>Starts a new browser and page before each TestNG method and closes them afterward. Makes the active page available to the failure listener.</p>
+                </article>
+                <article class="file-card">
+                    <h3>LoginPage.java</h3>
+                    <p>Implements the login Page Object. It owns page locators and actions to open the form, enter credentials, submit, and read the outcome.</p>
+                </article>
+            </div>
+
+            <h3>Test data and tests</h3>
+            <div class="file-grid">
+                <article class="file-card">
+                    <h3>UserLoginPOJO.java</h3>
+                    <p>A Java object containing <code>username</code>, <code>password</code>, and <code>expectedResult</code> fields, with constructors, getters, and setters.</p>
+                </article>
+                <article class="file-card">
+                    <h3>login-data.json</h3>
+                    <p>Contains one JSON object per scenario. Use only test credentials authorized for your test environment; never store real or production credentials here.</p>
+                </article>
+                <article class="file-card">
+                    <h3>JSONDataReader.java</h3>
+                    <p>Uses Jackson to deserialize the JSON array into <code>UserLoginPOJO</code> objects. Reports a missing, invalid, or empty data file.</p>
+                </article>
+                <article class="file-card">
+                    <h3>UserLoginTest.java</h3>
+                    <p>Its DataProvider creates one TestNG data row per POJO. The test drives LoginPage and asserts that the displayed result matches <code>expectedResult</code>.</p>
+                </article>
+            </div>
+            <p>For example, this JSON object is converted into one <code>UserLoginPOJO</code> and passed to the test method:</p>
+            <pre><code>{
+  "username": "student",
+  "password": "replace-me",
+  "expectedResult": "Logged In Successfully"
+}</code></pre>
+
+            <h3>Reporting and Jira</h3>
+            <div class="file-grid">
+                <article class="file-card">
+                    <h3>TestListener.java</h3>
+                    <p>Records passed, failed, and skipped tests in ExtentReports. On failure it captures a screenshot before browser cleanup, adds it to the report, and requests Jira reporting when configured.</p>
+                </article>
+                <article class="file-card">
+                    <h3>JiraClient.java</h3>
+                    <p>Calls Jira Cloud REST API, searches for an existing issue with the same failure fingerprint, creates a Bug when needed, and can attach the failure screenshot.</p>
+                </article>
+                <article class="file-card">
+                    <h3>jira.properties.example</h3>
+                    <p>Shows non-secret Jenkins settings: Jira base URL and project key. Store Jira email and API token in Jenkins credentials instead.</p>
+                </article>
+            </div>
+        </section>
+
+        <section id="test-flow">
+            <h2>How a test run works</h2>
+            <ol>
+                <li>Maven Surefire starts the TestNG tests.</li>
+                <li><code>BaseTest</code> starts a fresh browser and page before each test method.</li>
+                <li><code>JSONDataReader</code> loads scenario records; the DataProvider supplies one record to each test invocation.</li>
+                <li><code>UserLoginTest</code> uses <code>LoginPage</code> to submit the scenario and check the result.</li>
+                <li><code>TestListener</code> records the result in ExtentReports. On failure, it captures a screenshot before teardown closes the browser.</li>
+                <li>When all four Jira environment variables are present, <code>JiraClient</code> searches for a duplicate failure, creates an issue if needed, and attaches the screenshot.</li>
+                <li>TestNG teardown closes browser resources. The listener writes the HTML report under <code>target/extent-reports/</code>.</li>
+            </ol>
+        </section>
+
+        <section id="configuration">
+            <h2>Configure the application</h2>
+            <p>Edit <code>src/main/resources/config.properties</code>:</p>
+            <pre><code>application.url=https://your-application.example/login
+browser.type=chromium
+browser.headless=true</code></pre>
+            <p>Set the URL to your actual test application. In <code>LoginPage.java</code>, update the accessible locators and success-page detection to match that application's labels, button name, result element, and URL behavior. The expected messages in <code>login-data.json</code> must exactly match the application output.</p>
+            <div class="notice">
+                <p><strong>Test data safety:</strong> Use authorized test accounts. Do not commit credentials or put production credentials in JSON.</p>
+            </div>
+        </section>
+
+        <section id="run">
+            <h2>Install browser and run tests</h2>
+            <p>Run commands from the project directory. Install the browser selected by <code>browser.type</code>:</p>
+            <pre><code>mvn exec:java -Dexec.mainClass=com.microsoft.playwright.CLI -Dexec.args="install chromium"
+mvn clean test</code></pre>
+            <p>For Firefox or WebKit, install the browser you configured instead:</p>
+            <pre><code>mvn exec:java -Dexec.mainClass=com.microsoft.playwright.CLI -Dexec.args="install firefox"
+mvn exec:java -Dexec.mainClass=com.microsoft.playwright.CLI -Dexec.args="install webkit"</code></pre>
+            <p>The UI tests need a reachable application, matching selectors, valid test data, and expected messages that match its behavior.</p>
+        </section>
+
+        <section id="outputs">
+            <h2>Output files</h2>
+            <ul class="output-list">
+                <li><strong><code>target/surefire-reports/</code></strong> — Maven and TestNG results and failure details.</li>
+                <li><strong><code>target/screenshots/</code></strong> — Screenshots captured for failed tests.</li>
+                <li><strong><code>target/extent-reports/</code></strong> — ExtentReports HTML output with test statuses and failure screenshots.</li>
+            </ul>
+        </section>
+
+        <section id="jira">
+            <h2>Optional Jira Cloud failure reporting</h2>
+            <p>The listener reads these environment variables at runtime:</p>
+            <ul>
+                <li><code>JIRA_BASE_URL</code> — Jira site URL, such as <code>https://your-site.atlassian.net</code>.</li>
+                <li><code>JIRA_EMAIL</code> — Email address for the Jira account that creates issues.</li>
+                <li><code>JIRA_API_TOKEN</code> — API token for that account.</li>
+                <li><code>JIRA_PROJECT_KEY</code> — Project key where failure Bugs should be created.</li>
+            </ul>
+            <p>The Jira account needs permission to create issues in the project and attach files. Example PowerShell setup for a local run:</p>
+            <pre><code>$env:JIRA_BASE_URL = "https://your-site.atlassian.net"
+$env:JIRA_EMAIL = "your-jira-email@example.com"
+$env:JIRA_API_TOKEN = "your-api-token"
+$env:JIRA_PROJECT_KEY = "PROJECT"
+mvn clean test</code></pre>
+            <div class="notice">
+                <p>Keep the API token out of source code and test data. If Jira isn't configured, the test still reports its failure and saves its screenshot, but no Jira issue is created. Partial Jira configuration is reported by the listener.</p>
+            </div>
+        </section>
+
+        <section id="jenkins">
+            <h2>Jenkins CI/CD</h2>
+            <p>The root-level <code>Jenkinsfile</code> is a declarative pipeline that supports Windows and Linux agents. Configure Jenkins with:</p>
+            <ol>
+                <li>Java 21 and Maven installed and available on the agent's <code>PATH</code>.</li>
+                <li>The Jenkins <strong>Credentials Binding</strong> plugin.</li>
+                <li>Two <strong>Secret text</strong> credentials with IDs <code>jira-email</code> and <code>jira-api-token</code>.</li>
+                <li>Non-secret <code>JIRA_BASE_URL</code> and <code>JIRA_PROJECT_KEY</code> environment variables in the job or agent configuration.</li>
+                <li>An agent that can access the application and has the operating-system libraries Chromium requires. The pipeline installs Chromium itself.</li>
+                <li>A Pipeline or Multibranch Pipeline job configured to load this repository's root-level <code>Jenkinsfile</code>.</li>
+            </ol>
+            <p>The pipeline runs tests headlessly using <code>mvn clean test -Dbrowser.headless=true</code>. This system property overrides the value in <code>config.properties</code> for CI without changing your local browser setting. It publishes TestNG results and archives test reports and screenshots even after a failure. Jira reporting uses the Jenkins credentials and the URL/project-key environment variables.</p>
+        </section>
+    </main>
+</div>
+
+<footer>
+    User Login Automation Framework · Java 21 · Playwright · TestNG
+</footer>
+</body>
+</html>
