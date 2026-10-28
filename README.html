@@ -463,8 +463,9 @@ mvn exec:java -Dexec.mainClass=com.microsoft.playwright.CLI -Dexec.args="install
             <ul class="output-list">
                 <li><strong><code>target/surefire-reports/</code></strong> — Maven and TestNG results and failure details.</li>
                 <li><strong><code>target/screenshots/</code></strong> — Screenshots captured for failed tests.</li>
-                <li><strong><code>target/extent-reports/</code></strong> — ExtentReports HTML output with test statuses and failure screenshots.</li>
+                <li><strong><code>target/extent-reports/ExtentReport.html</code></strong> — ExtentReports HTML output with test statuses. Failure screenshots are copied to its <code>screenshots/</code> subfolder so Jenkins can display them with the published report.</li>
             </ul>
+            <p>The Jenkins pipeline publishes this file with the HTML Publisher plugin. Install that plugin on the Jenkins controller for the report link to appear.</p>
         </section>
 
         <section id="jira">

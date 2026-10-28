@@ -112,7 +112,9 @@ The UI tests require a reachable application, selectors that match its page, val
 
 - `target/surefire-reports/` — TestNG/Maven test results and failure details.
 - `target/screenshots/` — Screenshots captured for failed tests.
-- `target/extent-reports/` — ExtentReports HTML output with test statuses and failure screenshots.
+- `target/extent-reports/` — ExtentReports HTML output with test statuses and screenshots copied to its `screenshots/` subfolder so Jenkins can display them with the published report.
+
+The report is written as `target/extent-reports/ExtentReport.html`. The Jenkins pipeline publishes this file with the HTML Publisher plugin; install that plugin on the Jenkins controller for the report link to appear.
 
 ## Optional Jira Cloud failure reporting
 

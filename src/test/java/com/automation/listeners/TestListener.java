@@ -15,6 +15,7 @@ import org.testng.ITestResult;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
@@ -199,9 +200,20 @@ public class TestListener implements ITestListener {
             test.info("Failure screenshot was not available.");
             return;
         }
-        test.fail("Failure screenshot",
-                MediaEntityBuilder.createScreenCaptureFromPath(
-                        screenshot.toAbsolutePath().toString()).build());
+        Path reportScreenshotDirectory = Path.of("target", "extent-reports", "screenshots");
+        Path reportScreenshot = reportScreenshotDirectory.resolve(screenshot.getFileName());
+        try {
+            Files.createDirectories(reportScreenshotDirectory);
+            Files.copy(screenshot, reportScreenshot, StandardCopyOption.REPLACE_EXISTING);
+            String relativeScreenshotPath = "screenshots/" + screenshot.getFileName();
+            test.fail("Failure screenshot",
+                    MediaEntityBuilder.createScreenCaptureFromPath(relativeScreenshotPath).build());
+        } catch (IOException | RuntimeException exception) {
+            System.err.println("Could not include the failure screenshot in the Extent report: "
+                    + exception.getMessage());
+            test.warning("Could not include the failure screenshot in the Extent report: "
+                    + exception.getMessage());
+        }
     }
 
     /**
