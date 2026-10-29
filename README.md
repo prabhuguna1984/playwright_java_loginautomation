@@ -107,6 +107,8 @@ The UI tests require a reachable application, selectors that match its page, val
 
 The report is written as `target/extent-reports/ExtentReport.html`. Its screenshot links use paths relative to that report directory. The Jenkins pipeline publishes all files under this directory using the HTML Publisher plugin; install that plugin on the Jenkins controller for the report link to appear.
 
+The Extent Spark report uses JavaScript for its sidebar views and charts, and Font Awesome fonts for its icons. Jenkins' Content Security Policy can block these report assets. If the report's sidebar or icons do not work in Jenkins, ask a Jenkins administrator to configure a Jenkins Resource Root URL on a separate origin, as recommended by the [Jenkins security documentation](https://www.jenkins.io/doc/book/security/configuring-content-security-policy/). Do not disable CSP globally or attempt to change the controller's security policy from a pipeline running on an agent. The report can be opened locally from `target/extent-reports/ExtentReport.html` to distinguish a Jenkins policy issue from a generated-report issue.
+
 ## Optional Jira Cloud failure reporting
 
 The listener reads these environment variables at runtime:

@@ -2,7 +2,7 @@
   {
     "scenarioName": "Valid credentials display the login success message",
     "username": "student",
-    "password": "Password1230",
+    "password": "Password123",
     "expectedResult": "Logged In Successfully"
   },
   {
