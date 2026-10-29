@@ -160,6 +160,7 @@ public class TestListener implements ITestListener {
             Files.createDirectories(reportDirectory);
             Path reportPath = reportDirectory.resolve("ExtentReport.html");
             ExtentSparkReporter sparkReporter = new ExtentSparkReporter(reportPath.toString());
+            sparkReporter.config().setOfflineMode(true);
             sparkReporter.config().setDocumentTitle("User Login Automation Report");
             sparkReporter.config().setReportName("Playwright Test Results");
             extentReports = new ExtentReports();
