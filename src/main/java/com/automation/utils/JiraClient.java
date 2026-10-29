@@ -138,6 +138,16 @@ public class JiraClient {
     }
 
     /**
+     * Builds the browser URL for a Jira issue.
+     *
+     * @param issueKey the Jira issue key
+     * @return the issue's browse URL
+     */
+    public String getIssueUrl(String issueKey) {
+        return baseUrl + "/browse/" + issueKey;
+    }
+
+    /**
      * Searches the configured project for an issue with the supplied failure label.
      *
      * @param failureLabel the unique label identifying the failure

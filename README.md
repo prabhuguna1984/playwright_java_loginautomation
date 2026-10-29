@@ -105,7 +105,7 @@ The UI tests require a reachable application, selectors that match its page, val
 - `target/screenshots/` — Screenshots captured for failed tests.
 - `target/extent-reports/` — ExtentReports HTML output with test statuses and failure screenshots copied into its `screenshots/` subfolder.
 
-The report is written as `target/extent-reports/ExtentReport.html`. Its screenshot links use paths relative to that report directory. The Jenkins pipeline publishes all files under this directory using the HTML Publisher plugin; install that plugin on the Jenkins controller for the report link to appear.
+The report is written as `target/extent-reports/ExtentReport.html`. Its screenshot links use paths relative to that report directory. When Jira reporting is configured and a failure issue is created or reused, the failed test entry includes a clickable Jira ticket link. The Jenkins pipeline publishes all files under this directory using the HTML Publisher plugin; install that plugin on the Jenkins controller for the report link to appear.
 
 The Extent Spark report uses JavaScript for its sidebar views and charts, and Font Awesome fonts for its icons. Jenkins' Content Security Policy can block these report assets. If the report's sidebar or icons do not work in Jenkins, ask a Jenkins administrator to configure a Jenkins Resource Root URL on a separate origin, as recommended by the [Jenkins security documentation](https://www.jenkins.io/doc/book/security/configuring-content-security-policy/). Do not disable CSP globally or attempt to change the controller's security policy from a pipeline running on an agent. The report can be opened locally from `target/extent-reports/ExtentReport.html` to distinguish a Jenkins policy issue from a generated-report issue.
 
@@ -137,7 +137,7 @@ The root `Jenkinsfile` defines a declarative pipeline that supports Windows and 
 1. Make Java 21 and Maven available on the Jenkins agent's `PATH`.
 2. Install the Jenkins **Credentials Binding** plugin.
 3. Add two **Secret text** credentials with IDs `jira-email` and `jira-api-token`.
-4. Configure the non-secret `JIRA_BASE_URL` and `JIRA_PROJECT_KEY` environment variables in the Jenkins job or agent configuration.
+4. Configure the non-secret `JIRA_BASE_URL` and `JIRA_PROJECT_KEY` environment variables in the Jenkins job or agent configuration. The Jenkinsfile binds only the email and API token as credentials; Jira reporting is skipped with a report warning if any of the four required values are absent.
 5. Ensure the agent can access the application and has the operating-system libraries required by Chromium. The pipeline installs the Chromium browser binary.
 6. Create a Pipeline or Multibranch Pipeline job that loads the root-level `Jenkinsfile`.
 

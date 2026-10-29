@@ -100,6 +100,11 @@ public class TestListener implements ITestListener {
             if (JiraClient.hasPartialConfiguration()) {
                 System.err.println("Jira issue was not created: configure all four Jira environment variables.");
                 extentTest.warning("Jira issue was not created: Jira configuration is incomplete.");
+            } else {
+                System.err.println("Jira issue was not created: Jira reporting is disabled because "
+                        + "required environment variables are not configured.");
+                extentTest.warning("Jira issue was not created: Jira reporting is disabled because "
+                        + "required environment variables are not configured.");
             }
             currentTest.remove();
             return;
@@ -117,8 +122,11 @@ public class TestListener implements ITestListener {
             JiraClient jiraClient = new JiraClient();
             String issueKey = jiraClient.createOrFindIssue(
                     testName, failureMessage, description, failureTime);
-            System.err.println("Jira issue: " + issueKey);
-            extentTest.info("Jira issue: " + issueKey);
+            String issueUrl = jiraClient.getIssueUrl(issueKey);
+            System.err.println("Jira issue: " + issueUrl);
+            extentTest.info(() -> "Jira ticket: <a href=\"" + escapeHtmlAttribute(issueUrl)
+                    + "\" target=\"_blank\" rel=\"noopener noreferrer\">"
+                    + escapeHtml(issueKey) + "</a>");
 
             if (screenshot != null) {
                 jiraClient.attachScreenshot(issueKey, screenshot);
@@ -200,6 +208,17 @@ public class TestListener implements ITestListener {
             }
         }
         return extentReports.createTest(testName, description);
+    }
+
+    private String escapeHtml(String value) {
+        return value.replace("&", "&amp;")
+                .replace("<", "&lt;")
+                .replace(">", "&gt;");
+    }
+
+    private String escapeHtmlAttribute(String value) {
+        return escapeHtml(value).replace("\"", "&quot;")
+                .replace("'", "&#39;");
     }
 
     /**
