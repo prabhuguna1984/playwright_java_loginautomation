@@ -3,8 +3,10 @@ pipeline {
     agent any
 
     environment {
-        JIRA_EMAIL     = credentials('jira-email')
-        JIRA_API_TOKEN = credentials('jira-api-token')
+        JIRA_BASE_URL    = credentials('jira-base-url')
+        JIRA_EMAIL       = credentials('jira-email')
+        JIRA_API_TOKEN   = credentials('jira-api-token')
+        JIRA_PROJECT_KEY = credentials('jira-project-key')
     }
 
     stages {

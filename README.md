@@ -136,8 +136,8 @@ The root `Jenkinsfile` defines a declarative pipeline that supports Windows and 
 
 1. Make Java 21 and Maven available on the Jenkins agent's `PATH`.
 2. Install the Jenkins **Credentials Binding** plugin.
-3. Add two **Secret text** credentials with IDs `jira-email` and `jira-api-token`.
-4. Configure the non-secret `JIRA_BASE_URL` and `JIRA_PROJECT_KEY` environment variables in the Jenkins job or agent configuration. The Jenkinsfile binds only the email and API token as credentials; Jira reporting is skipped with a report warning if any of the four required values are absent.
+3. Add four Jenkins credentials with the exact IDs `jira-base-url`, `jira-email`, `jira-api-token`, and `jira-project-key`. Use **Secret text** credentials for the email and API token. The base URL and project key can also be stored as Secret text credentials for this pipeline.
+4. The Jenkinsfile maps those credentials to `JIRA_BASE_URL`, `JIRA_EMAIL`, `JIRA_API_TOKEN`, and `JIRA_PROJECT_KEY`, which the test listener reads. Jira reporting is skipped with a report warning if any of the four values is absent.
 5. Ensure the agent can access the application and has the operating-system libraries required by Chromium. The pipeline installs the Chromium browser binary.
 6. Create a Pipeline or Multibranch Pipeline job that loads the root-level `Jenkinsfile`.
 
