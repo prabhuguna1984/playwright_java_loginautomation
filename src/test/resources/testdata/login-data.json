@@ -1,15 +1,18 @@
 [
   {
+    "scenarioName": "Valid credentials display the login success message",
     "username": "student",
     "password": "Password1230",
     "expectedResult": "Logged In Successfully"
   },
   {
+    "scenarioName": "Invalid password displays a password error",
     "username": "student",
     "password": "123",
     "expectedResult": "Your password is invalid!"
   },
   {
+    "scenarioName": "Unknown username displays a username error",
     "username": "user1323",
     "password": "Password123",
     "expectedResult": "Your username is invalid!"

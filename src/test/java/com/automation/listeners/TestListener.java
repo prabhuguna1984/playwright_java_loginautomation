@@ -1,6 +1,7 @@
 package com.automation.listeners;
 
 import com.automation.base.BaseTest;
+import com.automation.models.UserLoginPOJO;
 import com.automation.utils.ConfigReader;
 import com.automation.utils.JiraClient;
 import com.aventstack.extentreports.ExtentReports;
@@ -19,10 +20,8 @@ import java.nio.file.StandardCopyOption;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class TestListener implements ITestListener {
-    private static final AtomicInteger TEST_COUNTER = new AtomicInteger();
     private static ExtentReports extentReports;
     private final ThreadLocal<ExtentTest> currentTest = new ThreadLocal<>();
 
@@ -43,8 +42,7 @@ public class TestListener implements ITestListener {
      */
     @Override
     public void onTestStart(ITestResult result) {
-        currentTest.set(extentReports.createTest(
-                result.getMethod().getQualifiedName() + " - run " + TEST_COUNTER.incrementAndGet()));
+        currentTest.set(createExtentTest(result));
     }
 
     /**
@@ -182,11 +180,26 @@ public class TestListener implements ITestListener {
     private ExtentTest getCurrentTest(ITestResult result) {
         ExtentTest test = currentTest.get();
         if (test == null) {
-            test = extentReports.createTest(
-                    result.getMethod().getQualifiedName() + " - run " + TEST_COUNTER.incrementAndGet());
+            test = createExtentTest(result);
             currentTest.set(test);
         }
         return test;
+    }
+
+    private ExtentTest createExtentTest(ITestResult result) {
+        String testName = result.getMethod().getMethodName();
+        String description = result.getMethod().getDescription();
+        Object[] parameters = result.getParameters();
+        if (parameters.length > 0 && parameters[0] instanceof UserLoginPOJO loginScenario) {
+            if (loginScenario.getScenarioName() != null && !loginScenario.getScenarioName().isBlank()) {
+                testName = loginScenario.getScenarioName();
+            }
+            if (loginScenario.getExpectedResult() != null && !loginScenario.getExpectedResult().isBlank()) {
+                description = (description == null || description.isBlank() ? "" : description + " ")
+                        + "Expected application message: " + loginScenario.getExpectedResult();
+            }
+        }
+        return extentReports.createTest(testName, description);
     }
 
     /**

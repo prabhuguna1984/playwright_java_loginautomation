@@ -33,7 +33,8 @@ public class UserLoginTest extends BaseTest {
      *
      * @param loginData credentials and expected message from one JSON record
      */
-    @Test(dataProvider = "loginData" , description = "Runs login scenarios from JSON test data")
+    @Test(dataProvider = "loginData",
+            description = "Verifies that each login scenario displays its expected result.")
     public void loginScenariosShowExpectedMessage(UserLoginPOJO loginData) {
         LoginPage loginPage = new LoginPage(page);
         loginPage.open();

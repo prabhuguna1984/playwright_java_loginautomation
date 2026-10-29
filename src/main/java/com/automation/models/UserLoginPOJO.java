@@ -1,6 +1,7 @@
 package com.automation.models;
 
 public class UserLoginPOJO {
+    private String scenarioName;
     private String username;
     private String password;
     private String expectedResult;
@@ -20,6 +21,20 @@ public class UserLoginPOJO {
         this.username = username;
         this.password = password;
         this.expectedResult = expectedResult;
+    }
+
+    /** @return the human-readable name of this login scenario */
+    public String getScenarioName() {
+        return scenarioName;
+    }
+
+    /**
+     * Sets the human-readable name of this login scenario.
+     *
+     * @param scenarioName the scenario name to display in test reports
+     */
+    public void setScenarioName(String scenarioName) {
+        this.scenarioName = scenarioName;
     }
 
     /** @return the username for this login scenario */
