@@ -1,6 +1,6 @@
 # User Login Automation Framework
 
-A beginner-friendly UI automation framework built with Java 21, Playwright for Java, Maven, TestNG, Page Object Model (POM), JSON test data, ExtentReports, and optional Jira Cloud reporting.
+UI automation framework built with Java 21, Playwright for Java, Maven, TestNG, Page Object Model (POM), JSON test data, ExtentReports, and optional Jira Cloud reporting.
 
 ## Framework structure
 
