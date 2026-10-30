@@ -12,7 +12,7 @@
     "expectedResult": "Your password is invalid!"
   },
   {
-    "scenarioName": "Unknown username displays a username error",
+    "scenarioName": "Invalid username displays a username error",
     "username": "user1323",
     "password": "Password123",
     "expectedResult": "Your username is invalid!"
